@@ -40,6 +40,6 @@ public interface FileRepository extends CrudRepository<FileEntity, Long>, JpaSpe
      * Получить сохраненные в БД файлы без содержимого файлов
      * @return список файлов
      */
-    @Query(value = "select id, file_name, null as file_body, null as source_file_body from file_entity", nativeQuery = true)
+    @Query(value = "select id, file_name, null as file_body, null as source_file_body, date from file_entity", nativeQuery = true)
     Iterable<FileEntity> getAllWithoutBody();
 }

@@ -3,6 +3,7 @@ package com.alex.edisoft.routes;
 import com.alex.edisoft.EdisoftTestApplication;
 import com.alex.edisoft.model.FileEntity;
 import com.alex.edisoft.repositories.FileRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Exchange;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
@@ -38,7 +39,6 @@ public class FileRouteTest {
     private static final String RESULT_XML = "/com/alex/edisoft/routes/out_example.xml";
     private static final String TEST_FILE_NAME = "test.xml";
     private static final String REQUEST_URI = "/files/all";
-    private static final String RESPONSE_BODY = "[{\"id\":1,\"fileName\":\"test.xml\"}]";
 
     @Produce(uri = "file:{{edisoft.test.directory.path}}")
     private ProducerTemplate fileTemplate;
@@ -85,7 +85,10 @@ public class FileRouteTest {
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
-        Assert.assertEquals(content, RESPONSE_BODY);
+
+        FileEntity[] fileEntities = new ObjectMapper().readValue(content, FileEntity[].class);
+        Assert.assertTrue(fileEntities.length > 0);
+        Assert.assertEquals(TEST_FILE_NAME, fileEntities[0].getFileName());
     }
 
     private byte[] getResourceBody(String resourcePath) throws InterruptedException, IOException {

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 /**
  * Обработчик полученного из директории файла
@@ -48,6 +49,7 @@ public class SaveInStoreProcessor implements Processor {
                 fileEntity.setFileName(originalFileName);
                 fileEntity.setSourceFileBody(originalFileBody);
                 fileEntity.setFileBody(transformedFileBody);
+                fileEntity.setDate(new Date());
 
                 //сохраняем все в БД
                 fileRepository.save(fileEntity);

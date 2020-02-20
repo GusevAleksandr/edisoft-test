@@ -3,6 +3,7 @@ package com.alex.edisoft.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Сущность файла для хранения в БД
@@ -25,6 +26,9 @@ public class FileEntity {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Lob
     private byte[] fileBody;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Date date;
 
     public long getId() {
         return id;
@@ -56,5 +60,13 @@ public class FileEntity {
 
     public void setFileBody(byte[] fileBody) {
         this.fileBody = fileBody;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
